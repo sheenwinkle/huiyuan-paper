@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/auth/admin-auth";
+import { updateInquiryStatus } from "@/lib/data/inquiries-store";
 import { prisma } from "@/lib/db/prisma";
+import { isDemoMode } from "@/lib/runtime/demo-mode";
 import { updateInquirySchema } from "@/lib/validators/admin-inquiry";
 
 type RouteContext = {
@@ -27,6 +29,14 @@ export async function PATCH(request: Request, context: RouteContext) {
   const { inquiryId } = await context.params;
 
   try {
+    if (isDemoMode()) {
+      const inquiry = updateInquiryStatus(inquiryId, result.data.status);
+      if (!inquiry) {
+        return NextResponse.json({ error: "INQUIRY_NOT_FOUND" }, { status: 404 });
+      }
+      return NextResponse.json({ inquiry });
+    }
+
     const inquiry = await prisma.inquiry.update({
       where: { id: inquiryId },
       data: result.data
@@ -37,4 +47,3 @@ export async function PATCH(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "INQUIRY_UPDATE_FAILED" }, { status: 503 });
   }
 }
-

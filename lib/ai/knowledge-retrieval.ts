@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/db/prisma";
+import { listDemoKnowledge } from "@/lib/data/demo-knowledge-store";
+import { isDemoMode } from "@/lib/runtime/demo-mode";
 
 export type RetrievedKnowledge = {
   title: string;
@@ -27,6 +29,22 @@ export async function retrieveKnowledge(message: string, limit = 3): Promise<Ret
   }
 
   try {
+    if (isDemoMode()) {
+      return listDemoKnowledge()
+        .filter((document) => document.isActive)
+        .map((document) => ({
+          document,
+          score: scoreDocument(queryTokens, document.title, document.content)
+        }))
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, limit)
+        .map(({ document }) => ({
+          title: document.title,
+          content: document.content
+        }));
+    }
+
     const documents = await prisma.knowledgeDocument.findMany({
       where: { isActive: true },
       orderBy: { updatedAt: "desc" },
@@ -49,4 +67,3 @@ export async function retrieveKnowledge(message: string, limit = 3): Promise<Ret
     return [];
   }
 }
-

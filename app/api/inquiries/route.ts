@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/auth/admin-auth";
+import { addInquiry, listInquiries } from "@/lib/data/inquiries-store";
 import { prisma } from "@/lib/db/prisma";
+import { isDemoMode } from "@/lib/runtime/demo-mode";
 import { inquirySchema } from "@/lib/validators/inquiry";
 
 export async function GET() {
@@ -8,6 +10,10 @@ export async function GET() {
 
   if (!session) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
+  }
+
+  if (isDemoMode()) {
+    return NextResponse.json({ inquiries: listInquiries() });
   }
 
   try {
@@ -36,6 +42,11 @@ export async function POST(request: Request) {
   }
 
   try {
+    if (isDemoMode()) {
+      const inquiry = addInquiry(result.data);
+      return NextResponse.json({ inquiry }, { status: 201 });
+    }
+
     const inquiry = await prisma.inquiry.create({
       data: result.data
     });

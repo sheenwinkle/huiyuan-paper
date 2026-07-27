@@ -32,3 +32,18 @@ export function listInquiries() {
   return inquiries;
 }
 
+export function updateInquiryStatus(
+  id: string,
+  status: InquiryRecord["status"] | "NEW" | "CONTACTED" | "CLOSED"
+) {
+  const inquiry = inquiries.find((item) => item.id === id);
+
+  if (!inquiry) {
+    return null;
+  }
+
+  inquiry.status =
+    status === "NEW" ? "new" : status === "CONTACTED" ? "contacted" : status === "CLOSED" ? "closed" : status;
+  return inquiry;
+}
+

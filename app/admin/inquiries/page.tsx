@@ -1,12 +1,31 @@
 import Link from "next/link";
-import { InquiriesTable } from "@/components/admin/inquiries-table";
+import { InquiriesTable, type InquiryStatus } from "@/components/admin/inquiries-table";
 import { LogoutButton } from "@/components/admin/logout-button";
 import { requireAdmin } from "@/lib/auth/admin-auth";
+import { listInquiries } from "@/lib/data/inquiries-store";
 import { prisma } from "@/lib/db/prisma";
+import { isDemoMode } from "@/lib/runtime/demo-mode";
 
 export const dynamic = "force-dynamic";
 
+function normalizeDemoStatus(status: string): InquiryStatus {
+  if (status === "contacted") return "CONTACTED";
+  if (status === "closed") return "CLOSED";
+  return "NEW";
+}
+
 async function getInquiries() {
+  if (isDemoMode()) {
+    return {
+      inquiries: listInquiries().map((inquiry) => ({
+        ...inquiry,
+        status: normalizeDemoStatus(inquiry.status),
+        updatedAt: inquiry.createdAt
+      })),
+      databaseReady: true
+    };
+  }
+
   try {
     const inquiries = await prisma.inquiry.findMany({
       orderBy: { createdAt: "desc" },
@@ -43,10 +62,7 @@ export default async function AdminInquiriesPage() {
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Link
-            href="/admin"
-            className="focus-ring rounded-md bg-cinnabar px-4 py-2 text-center text-sm font-semibold text-white"
-          >
+          <Link href="/admin" className="focus-ring rounded-md bg-cinnabar px-4 py-2 text-center text-sm font-semibold text-white">
             返回总览
           </Link>
           <LogoutButton />
@@ -65,4 +81,3 @@ export default async function AdminInquiriesPage() {
     </main>
   );
 }
-

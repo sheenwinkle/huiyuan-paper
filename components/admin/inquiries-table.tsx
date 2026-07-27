@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 
-type InquiryStatus = "NEW" | "CONTACTED" | "CLOSED";
+export type InquiryStatus = "NEW" | "CONTACTED" | "CLOSED";
 
-type InquiryRow = {
+export type InquiryRow = {
   id: string;
   name: string;
   phone: string;
@@ -101,4 +101,3 @@ export function InquiriesTable({ inquiries }: { inquiries: InquiryRow[] }) {
     </div>
   );
 }
-

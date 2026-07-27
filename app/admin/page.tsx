@@ -1,12 +1,29 @@
 import Link from "next/link";
 import { LogoutButton } from "@/components/admin/logout-button";
 import { requireAdmin } from "@/lib/auth/admin-auth";
+import { listDemoKnowledge } from "@/lib/data/demo-knowledge-store";
+import { listDemoCategories } from "@/lib/data/demo-products-store";
+import { listInquiries } from "@/lib/data/inquiries-store";
 import { productCategories } from "@/lib/data/site-content";
 import { prisma } from "@/lib/db/prisma";
+import { isDemoMode } from "@/lib/runtime/demo-mode";
 
 export const dynamic = "force-dynamic";
 
 async function getDashboardMetrics() {
+  if (isDemoMode()) {
+    const categories = listDemoCategories();
+    const inquiries = listInquiries();
+    return {
+      inquiryCount: inquiries.length,
+      pendingCount: inquiries.filter((inquiry) => inquiry.status === "new").length,
+      categoryCount: categories.length,
+      productCount: categories.reduce((count, category) => count + category.products.length, 0),
+      knowledgeCount: listDemoKnowledge().filter((document) => document.isActive).length,
+      databaseReady: true
+    };
+  }
+
   try {
     const [inquiryCount, pendingCount, dbCategoryCount, dbProductCount, knowledgeCount] =
       await Promise.all([

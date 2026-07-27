@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/auth/admin-auth";
+import { createDemoKnowledge, listDemoKnowledge } from "@/lib/data/demo-knowledge-store";
 import { prisma } from "@/lib/db/prisma";
+import { isDemoMode } from "@/lib/runtime/demo-mode";
 import { createKnowledgeDocumentSchema } from "@/lib/validators/knowledge";
 
 export async function GET() {
@@ -8,6 +10,10 @@ export async function GET() {
 
   if (!session) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
+  }
+
+  if (isDemoMode()) {
+    return NextResponse.json({ documents: listDemoKnowledge() });
   }
 
   try {
@@ -42,6 +48,11 @@ export async function POST(request: Request) {
   }
 
   try {
+    if (isDemoMode()) {
+      const document = createDemoKnowledge(result.data);
+      return NextResponse.json({ document }, { status: 201 });
+    }
+
     const document = await prisma.knowledgeDocument.create({
       data: result.data
     });
@@ -54,4 +65,3 @@ export async function POST(request: Request) {
     );
   }
 }
-

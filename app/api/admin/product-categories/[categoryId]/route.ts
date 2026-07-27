@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/auth/admin-auth";
+import { deleteDemoCategory, updateDemoCategory } from "@/lib/data/demo-products-store";
 import { prisma } from "@/lib/db/prisma";
+import { isDemoMode } from "@/lib/runtime/demo-mode";
 import { updateCategorySchema } from "@/lib/validators/product";
 
 type RouteContext = {
@@ -27,6 +29,14 @@ export async function PATCH(request: Request, context: RouteContext) {
   const { categoryId } = await context.params;
 
   try {
+    if (isDemoMode()) {
+      const category = updateDemoCategory(categoryId, result.data);
+      if (!category) {
+        return NextResponse.json({ error: "CATEGORY_NOT_FOUND" }, { status: 404 });
+      }
+      return NextResponse.json({ category });
+    }
+
     const category = await prisma.productCategory.update({
       where: { id: categoryId },
       data: result.data
@@ -48,6 +58,11 @@ export async function DELETE(_request: Request, context: RouteContext) {
   const { categoryId } = await context.params;
 
   try {
+    if (isDemoMode()) {
+      const ok = deleteDemoCategory(categoryId);
+      return NextResponse.json({ ok }, { status: ok ? 200 : 409 });
+    }
+
     const productCount = await prisma.product.count({
       where: { categoryId }
     });
@@ -65,4 +80,3 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return NextResponse.json({ error: "CATEGORY_DELETE_FAILED" }, { status: 503 });
   }
 }
-
