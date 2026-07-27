@@ -74,3 +74,32 @@ const html = String.raw`<!doctype html>
 
 fs.writeFileSync(path.join(outDir, "index.html"), html);
 
+const serverDir = path.join(outDir, "server");
+const openaiDir = path.join(outDir, ".openai");
+fs.mkdirSync(serverDir, { recursive: true });
+fs.mkdirSync(openaiDir, { recursive: true });
+fs.copyFileSync(
+  path.join(process.cwd(), ".openai", "hosting.json"),
+  path.join(openaiDir, "hosting.json")
+);
+
+fs.writeFileSync(
+  path.join(serverDir, "index.js"),
+  `const html = ${JSON.stringify(html)};
+
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    if (url.pathname === "/api/health") {
+      return Response.json({ ok: true, service: "huiyuan-paper-sites-demo" });
+    }
+    return new Response(html, {
+      headers: {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "no-store"
+      }
+    });
+  }
+};
+`
+);
