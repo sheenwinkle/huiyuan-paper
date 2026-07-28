@@ -1,5 +1,7 @@
 # 慧缘纸制品数字化官网
 
+GitHub: https://github.com/sheenwinkle/huiyuan-paper
+
 面向中国长三角纸制祭祀用品加工与销售场景的全栈数字化系统。项目以丹阳市丹北镇慧缘纸制品为真实业务背景，覆盖官网展示、客户询盘、管理员后台、产品管理、AI 客服知识库和部署工程化。
 
 这个项目不是普通静态官网，而是一个小微制造业数字化样板：用软件把传统线下销售中的产品展示、客户咨询、人工跟进和资料沉淀连接起来。
@@ -54,29 +56,12 @@
 
 ## 本地运行
 
-安装依赖：
-
 ```powershell
 npm.cmd install
-```
-
-启动数据库：
-
-```powershell
 docker compose up -d
-```
-
-初始化 Prisma：
-
-```powershell
 npm.cmd run db:generate
 npm.cmd run db:migrate -- --name init
 npm.cmd run db:seed
-```
-
-启动开发服务器：
-
-```powershell
 npm.cmd run dev -- --hostname 127.0.0.1 --port 3000
 ```
 
@@ -154,9 +139,10 @@ docker compose --env-file .env.production -f docker-compose.prod.yml exec app no
 
 ## 当前状态
 
+- GitHub 仓库已发布
 - 本地全栈代码可构建
 - Sites 演示站已部署
 - Docker 生产部署配置已准备
-- GitHub 发布脚本已准备
+- GitHub Actions CI 已配置
 - 真实域名和云服务器属于后续付费步骤
 
