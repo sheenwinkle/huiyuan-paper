@@ -14,7 +14,7 @@
 构建命令：
 
 ```powershell
-npm.cmd run build
+npm.cmd run build:sites-demo
 ```
 
 该命令会完成两件事：
@@ -71,4 +71,3 @@ DEMO_MODE=false
 ## 4. 域名说明
 
 `.cn` 域名和中国大陆服务器通常需要备案。备案前可以先用平台分配的临时域名或海外演示域名展示项目。
-

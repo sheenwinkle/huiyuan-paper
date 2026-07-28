@@ -62,6 +62,12 @@ export default async function AdminInquiriesPage() {
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
+          <a
+            href="/api/admin/inquiries/export"
+            className="focus-ring rounded-md border border-black/15 bg-white px-4 py-2 text-center text-sm font-semibold text-ink"
+          >
+            导出 CSV
+          </a>
           <Link href="/admin" className="focus-ring rounded-md bg-cinnabar px-4 py-2 text-center text-sm font-semibold text-white">
             返回总览
           </Link>

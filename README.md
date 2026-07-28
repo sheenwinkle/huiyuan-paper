@@ -11,7 +11,7 @@ GitHub: https://github.com/sheenwinkle/huiyuan-paper
 - 真实业务场景：江苏丹阳纸制祭祀用品加工厂，主打抽泡纸，服务长三角批发和零售客户。
 - 全栈闭环：首页、产品中心、询盘表单、后台登录、产品管理、询盘管理、AI 知识库。
 - AI 应用落地：客服先基于知识库承接问题，再引导客户添加微信或留下联系方式，避免乱报价。
-- 工程化完整：Next.js、TypeScript、Prisma、PostgreSQL、Docker、健康检查、部署说明、GitHub Actions。
+- 工程化完整：Next.js、TypeScript、Prisma、PostgreSQL、Docker、健康检查、CI、GitHub Pages CD、部署说明。
 - 作品集表达：体现“AI + 软件工程帮助下沉市场小微企业获得数字化红利”。
 
 ## 功能范围
@@ -31,6 +31,7 @@ GitHub: https://github.com/sheenwinkle/huiyuan-paper
 - 运营总览
 - 询盘列表
 - 询盘状态流转
+- 询盘 CSV 导出
 - 产品分类管理
 - 产品新增、编辑、上下架、删除
 - AI 知识库新增、编辑、启用、停用、删除
@@ -114,7 +115,15 @@ GOOGLE_GENERATIVE_AI_API_KEY=""
 
 ### 免费作品集演示
 
-Cloudflare Pages 可以免费托管静态演示版，并提供 `*.pages.dev` 免费子域名。当前项目的 `npm run build` 会额外生成 `dist/`，用于静态演示部署。
+GitHub Pages CD 会在 `main` 分支 push 后自动构建静态演示版并发布，不需要数据库和付费 API。
+
+Cloudflare Pages 也可以免费托管静态演示版，并提供 `*.pages.dev` 免费子域名。静态演示构建命令是：
+
+```powershell
+npm.cmd run build:sites-demo
+```
+
+该命令会生成 `dist/`，用于静态演示部署。
 
 ### 真实业务上线
 
@@ -143,6 +152,5 @@ docker compose --env-file .env.production -f docker-compose.prod.yml exec app no
 - 本地全栈代码可构建
 - Sites 演示站已部署
 - Docker 生产部署配置已准备
-- GitHub Actions CI 已配置
+- GitHub Actions CI/CD 已配置
 - 真实域名和云服务器属于后续付费步骤
-

@@ -21,7 +21,7 @@ Cloudflare Pages 免费计划支持：
 
 ```text
 Framework preset: None
-Build command: npm run build
+Build command: npm run build:sites-demo
 Build output directory: dist
 Root directory: /
 ```
@@ -31,9 +31,13 @@ Root directory: /
 ```env
 DEMO_MODE=true
 AI_PROVIDER=rules
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/huiyuan_paper_demo
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=change-me
+AUTH_SECRET=demo-only-secret
 ```
 
-如果只部署静态演示版，不需要配置 `DATABASE_URL`。
+这些变量只用于构建阶段通过框架校验；静态演示版不会连接数据库。
 
 ## 部署后验证
 
@@ -61,4 +65,3 @@ change-me
 ## 自定义域名
 
 有正式域名后，在 Cloudflare Pages 项目中添加 Custom domain。对于根域名，需要把域名接入 Cloudflare DNS；对于子域名，可以配置 CNAME 到 `*.pages.dev`。
-
