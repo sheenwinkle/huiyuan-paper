@@ -1,6 +1,6 @@
 # 部署说明
 
-本项目分两种部署方式：免费作品集演示和真实业务上线。
+本项目分三种部署方式：免费静态作品集演示、免费/低成本全栈演示和真实业务上线。
 
 ## 1. 免费作品集演示
 
@@ -24,7 +24,29 @@ npm.cmd run build:sites-demo
 
 `dist/` 可以部署到支持静态站点的平台，例如 Cloudflare Pages。
 
-## 2. 真实业务部署
+## 2. Render 全栈演示
+
+适合目标：
+
+- 面试展示完整后台
+- 验证真实 API 和数据库链路
+- 不购买域名
+- 不接真实客户数据
+
+仓库根目录提供 `render.yaml`。在 Render 中选择 Blueprint 并连接 GitHub 仓库后，Render 会创建：
+
+- `huiyuan-paper-web`
+- `huiyuan-paper-db`
+
+免费限制：
+
+- Web Service 闲置会休眠。
+- 免费 Postgres 30 天后过期。
+- 本地文件系统是临时的，图片继续使用 `imageUrl`。
+
+更详细步骤见 `docs/render-deployment.md`。
+
+## 3. 真实业务部署
 
 适合目标：
 
@@ -56,7 +78,7 @@ docker compose --env-file .env.production -f docker-compose.prod.yml exec app no
 /api/health
 ```
 
-## 3. 必须更换的生产变量
+## 4. 必须更换的生产变量
 
 ```env
 POSTGRES_PASSWORD=
@@ -68,6 +90,6 @@ DEMO_MODE=false
 
 生产环境不要使用默认密码。
 
-## 4. 域名说明
+## 5. 域名说明
 
 `.cn` 域名和中国大陆服务器通常需要备案。备案前可以先用平台分配的临时域名或海外演示域名展示项目。

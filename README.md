@@ -56,7 +56,7 @@ GitHub: https://github.com/sheenwinkle/huiyuan-paper
 - ORM: Prisma
 - Auth: HttpOnly Cookie + HMAC 签名 token
 - AI: Rule-based provider + knowledge retrieval
-- Deployment: Docker Compose / Cloudflare Pages 静态演示 / Sites 演示
+- Deployment: GitHub Pages 静态演示 / Render 全栈演示 / Docker Compose 生产部署
 
 ## 本地运行
 
@@ -128,6 +128,12 @@ npm.cmd run build:sites-demo
 
 该命令会生成 `dist/`，用于静态演示部署。
 
+### 免费全栈演示
+
+Render 可以不买域名部署全栈版本，并提供 `*.onrender.com` HTTPS 地址。仓库已提供 `render.yaml`，可通过 Render Blueprint 创建 Web Service 和 PostgreSQL。
+
+Render 免费数据库会在 30 天后过期，因此只适合作品集演示或短期验证。长期免费演示可以把 Web Service 放在 Render，把数据库换成 Supabase Free 或其他外部 PostgreSQL。
+
 ### 真实业务上线
 
 真实业务版本需要数据库和后台持久化，建议部署到云服务器：
@@ -145,6 +151,7 @@ docker compose --env-file .env.production -f docker-compose.prod.yml exec app no
 
 - [架构说明](docs/architecture.md)
 - [部署说明](docs/deployment.md)
+- [Render 全栈演示部署](docs/render-deployment.md)
 - [Cloudflare Pages 免费演示部署](docs/cloudflare-pages.md)
 - [免费绕开方案](docs/free-workarounds.md)
 - [作品集包装](docs/portfolio.md)
@@ -158,4 +165,5 @@ docker compose --env-file .env.production -f docker-compose.prod.yml exec app no
 - Docker 生产部署配置已准备
 - Prisma 生产迁移文件已准备
 - GitHub Actions CI/CD 已配置
+- Render Blueprint 已准备
 - 真实域名和云服务器属于后续付费步骤

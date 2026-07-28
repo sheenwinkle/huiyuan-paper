@@ -29,5 +29,7 @@
 ## 生产部署
 
 - 作品集演示：GitHub Pages CD，免费。
+- 全栈演示：Render Web Service，使用 `*.onrender.com`，不需要买域名。
+- 更稳的长期免费数据：Render Web Service + Supabase Free PostgreSQL，避免 Render Free Postgres 30 天过期。
 - 真实业务：Docker + PostgreSQL + HTTPS，等域名、服务器和备案准备好再上线。
 - 数据库迁移文件已提交，生产环境可以执行 `prisma migrate deploy`。
