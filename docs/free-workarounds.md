@@ -16,9 +16,9 @@
 
 ## AI 客服
 
-- 默认 `AI_PROVIDER=rules`，不消耗付费 API。
+- 当前支持 `AI_PROVIDER=google` 接入 Google Gemini；未配置 key 或调用失败时自动回退到规则客服。
 - 知识库回答只承接基础问题，价格、发货、账期、库存统一转人工。
-- 后续可以新增 OpenAI、Gemini 或国产模型 provider，保留同一套客服入口。
+- 后续可以继续新增 OpenAI 或国产模型 provider，保留同一套客服入口。
 
 ## 1688 询盘
 

@@ -21,7 +21,11 @@ services:
       - key: AUTH_SECRET
         generateValue: true
       - key: AI_PROVIDER
-        value: rules
+        value: google
+      - key: GOOGLE_GENERATIVE_AI_API_KEY
+        sync: false
+      - key: GOOGLE_GEMINI_MODEL
+        value: gemini-2.5-flash-lite
       - key: DEMO_MODE
         value: "false"
       - key: NODE_ENV

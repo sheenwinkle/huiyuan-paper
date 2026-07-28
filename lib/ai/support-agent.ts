@@ -1,4 +1,8 @@
 import { retrieveKnowledge } from "@/lib/ai/knowledge-retrieval";
+import {
+  createGoogleGeminiSupportReply,
+  isGoogleGeminiConfigured
+} from "@/lib/ai/google-gemini-support";
 import { createSupportReply, type ChatReply } from "@/lib/ai/rule-based-support";
 
 export type SupportAgentInput = {
@@ -18,7 +22,19 @@ export const ruleAndKnowledgeProvider: SupportAgentProvider = {
   }
 };
 
+export const googleGeminiProvider: SupportAgentProvider = {
+  name: "google-gemini",
+  async reply(input) {
+    return createGoogleGeminiSupportReply(input.message);
+  }
+};
+
 export function getSupportAgentProvider() {
+  const provider = (process.env.AI_PROVIDER || "rules").toLowerCase();
+
+  if ((provider === "google" || provider === "gemini") && isGoogleGeminiConfigured()) {
+    return googleGeminiProvider;
+  }
+
   return ruleAndKnowledgeProvider;
 }
-

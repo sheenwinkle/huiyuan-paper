@@ -41,11 +41,12 @@ GitHub: https://github.com/sheenwinkle/huiyuan-paper
 
 ### AI 客服
 
-- 默认使用 `AI_PROVIDER=rules`
+- 支持 `AI_PROVIDER=google` 接入 Google Gemini
+- 未配置 Google API key 或调用失败时自动回退到 `AI_PROVIDER=rules` 的规则客服
 - 支持知识库检索
 - 可在没有付费 API key 的情况下演示
 - 对价格、发货、账期、库存等高风险问题引导人工确认
-- 后续可扩展 OpenAI、Gemini 或国产模型 Provider
+- 后续仍可扩展 OpenAI 或国产模型 Provider
 
 ## 技术栈
 
@@ -108,10 +109,12 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/huiyuan_paper"
 ADMIN_EMAIL="admin@example.com"
 ADMIN_PASSWORD="change-me"
 AUTH_SECRET="change-this-long-random-secret-before-deploy"
-AI_PROVIDER="rules"
+AI_PROVIDER="google"
 DEMO_MODE="false"
 OPENAI_API_KEY=""
 GOOGLE_GENERATIVE_AI_API_KEY=""
+GOOGLE_API_KEY=""
+GOOGLE_GEMINI_MODEL="gemini-2.5-flash-lite"
 ```
 
 ## 部署路线

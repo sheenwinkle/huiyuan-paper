@@ -48,9 +48,12 @@ Render 免费 Web Service 不支持 pre-deploy command，所以迁移和 seed �
 ```env
 ADMIN_EMAIL=你的管理员邮箱
 ADMIN_PASSWORD=强密码
+GOOGLE_GENERATIVE_AI_API_KEY=你的 Google Gemini API Key
 ```
 
-`AUTH_SECRET` 会由 Render 自动生成。`DATABASE_URL` 会引用 Render Postgres。
+`AUTH_SECRET` 会由 Render 自动生成。`DATABASE_URL` 会引用 Render Postgres。`GOOGLE_GENERATIVE_AI_API_KEY` 不要提交到 GitHub，只在 Render 环境变量里填写。
+
+如果暂时不填写 Google API key，线上聊天会自动回退到规则客服，不会影响网站使用。
 
 ## 更好的长期免费绕法
 
