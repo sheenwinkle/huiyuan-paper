@@ -11,6 +11,9 @@
 - `/admin/products` 支持新增产品分类和产品。
 - 官网 `/products` 优先读取数据库产品资料，数据库不可用时回退静态分类。
 - `/admin/products` 支持编辑、上下架和删除产品。
-- `/admin/inquiries` 支持修改询盘状态。
+- `/admin/products` 支持产品图片链接，免费阶段先用外链，生产阶段可替换为 OSS/S3。
+- `/admin/inquiries` 支持修改询盘状态、客户类型、优先级、下次跟进日期和跟进备注。
+- `/admin/inquiries` 支持 CRM 指标卡和 CSV 导出。
 - `/admin/knowledge` 支持维护 AI 客服知识库。
 - `/api/chat` 通过 support agent provider 调用规则客服和知识库检索。
+- `prisma/migrations/0001_init` 提供生产数据库初始迁移，真实上线可执行 `prisma migrate deploy`。

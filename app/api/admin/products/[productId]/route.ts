@@ -27,7 +27,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const { productId } = await context.params;
-  const { specsText, ...data } = result.data;
+  const { imageUrl, specsText, ...data } = result.data;
 
   try {
     if (isDemoMode()) {
@@ -42,6 +42,7 @@ export async function PATCH(request: Request, context: RouteContext) {
       where: { id: productId },
       data: {
         ...data,
+        ...(imageUrl !== undefined ? { imageUrl: imageUrl || null } : {}),
         ...(specsText !== undefined ? { specs: specsText ? { note: specsText } : undefined } : {})
       }
     });

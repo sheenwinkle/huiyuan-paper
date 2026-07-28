@@ -12,6 +12,7 @@ export const createProductSchema = z.object({
   categoryId: z.string().trim().min(1),
   name: z.string().trim().min(1).max(120),
   description: z.string().trim().min(1).max(1000),
+  imageUrl: z.string().trim().max(500).optional().default(""),
   specsText: z.string().trim().max(1000).optional().default("")
 });
 
@@ -30,6 +31,7 @@ export const updateProductSchema = z.object({
   categoryId: z.string().trim().min(1).optional(),
   name: z.string().trim().min(1).max(120).optional(),
   description: z.string().trim().min(1).max(1000).optional(),
+  imageUrl: z.string().trim().max(500).optional(),
   specsText: z.string().trim().max(1000).optional(),
   isActive: z.boolean().optional()
 });

@@ -8,6 +8,7 @@ type Product = {
   categoryId: string;
   name: string;
   description: string;
+  imageUrl?: string | null;
   isActive: boolean;
   specs?: { note?: string } | null;
 };
@@ -95,6 +96,7 @@ export function ProductManagement() {
         categoryId: String(formData.get("categoryId") || ""),
         name: String(formData.get("name") || ""),
         description: String(formData.get("description") || ""),
+        imageUrl: String(formData.get("imageUrl") || ""),
         specsText: String(formData.get("specsText") || "")
       })
     });
@@ -158,6 +160,7 @@ export function ProductManagement() {
         categoryId: String(formData.get("categoryId") || ""),
         name: String(formData.get("name") || ""),
         description: String(formData.get("description") || ""),
+        imageUrl: String(formData.get("imageUrl") || ""),
         specsText: String(formData.get("specsText") || "")
       })
     });
@@ -236,6 +239,7 @@ export function ProductManagement() {
           </select>
           <input name="name" required className="focus-ring rounded-md border border-black/15 px-3 py-3 text-sm" placeholder="产品名称" />
           <textarea name="description" required rows={3} className="focus-ring resize-none rounded-md border border-black/15 px-3 py-3 text-sm" placeholder="产品说明" />
+          <input name="imageUrl" className="focus-ring rounded-md border border-black/15 px-3 py-3 text-sm" placeholder="产品图片链接，可后续补充" />
           <textarea name="specsText" rows={2} className="focus-ring resize-none rounded-md border border-black/15 px-3 py-3 text-sm" placeholder="规格备注" />
           <button type="submit" disabled={productState === "submitting" || categories.length === 0} className="focus-ring rounded-md bg-cinnabar px-5 py-3 text-sm font-semibold text-white disabled:opacity-70">
             {productState === "submitting" ? "保存中..." : "保存产品"}
@@ -284,9 +288,10 @@ export function ProductManagement() {
                     <p className="text-sm text-graphite/55">此分类下暂无产品。</p>
                   ) : (
                     category.products.map((product) => (
-                      <form key={product.id} onSubmit={(event) => void handleUpdateProduct(event, product.id)} className="grid gap-3 rounded-md bg-paper p-4 lg:grid-cols-[1.2fr_1.4fr_1fr_1fr_auto]">
+                      <form key={product.id} onSubmit={(event) => void handleUpdateProduct(event, product.id)} className="grid gap-3 rounded-md bg-paper p-4 lg:grid-cols-[1.1fr_1.3fr_1.2fr_1fr_1fr_auto]">
                         <input name="name" defaultValue={product.name} required className="focus-ring rounded-md border border-black/15 px-3 py-2 text-sm font-semibold" />
                         <input name="description" defaultValue={product.description} required className="focus-ring rounded-md border border-black/15 px-3 py-2 text-sm" />
+                        <input name="imageUrl" defaultValue={product.imageUrl || ""} className="focus-ring rounded-md border border-black/15 px-3 py-2 text-sm" placeholder="图片链接" />
                         <input name="specsText" defaultValue={product.specs?.note || ""} className="focus-ring rounded-md border border-black/15 px-3 py-2 text-sm" placeholder="规格备注" />
                         <select name="categoryId" defaultValue={product.categoryId || category.id} className="focus-ring rounded-md border border-black/15 bg-white px-3 py-2 text-sm">
                           {categories.map((option) => (
@@ -314,4 +319,3 @@ export function ProductManagement() {
     </div>
   );
 }
-

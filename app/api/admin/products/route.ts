@@ -85,6 +85,7 @@ export async function POST(request: Request) {
         categoryId: result.data.categoryId,
         name: result.data.name,
         description: result.data.description,
+        imageUrl: result.data.imageUrl || null,
         specs: result.data.specsText ? { note: result.data.specsText } : undefined,
         slug: createSlug(result.data.name, "product")
       }

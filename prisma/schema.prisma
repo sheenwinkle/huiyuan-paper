@@ -13,6 +13,18 @@ enum InquiryStatus {
   CLOSED
 }
 
+enum InquiryPriority {
+  LOW
+  NORMAL
+  HIGH
+}
+
+enum CustomerType {
+  UNKNOWN
+  RETAILER
+  WHOLESALER
+}
+
 enum ChatRole {
   USER
   ASSISTANT
@@ -37,6 +49,7 @@ model Product {
   name        String
   slug        String          @unique
   description String
+  imageUrl    String?
   specs       Json?
   isActive    Boolean         @default(true)
   createdAt   DateTime        @default(now())
@@ -44,17 +57,23 @@ model Product {
 }
 
 model Inquiry {
-  id        String        @id @default(cuid())
-  name      String
-  phone     String
-  wechat    String?
-  region    String?
-  product   String
-  quantity  String?
-  note      String?
-  status    InquiryStatus @default(NEW)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  id              String          @id @default(cuid())
+  name            String
+  phone           String
+  wechat          String?
+  region          String?
+  product         String
+  quantity        String?
+  note            String?
+  customerType    CustomerType    @default(UNKNOWN)
+  priority        InquiryPriority @default(NORMAL)
+  status          InquiryStatus   @default(NEW)
+  followUpNote    String?
+  nextFollowUpAt  DateTime?
+  lastContactedAt DateTime?
+  source          String          @default("website")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 }
 
 model ChatSession {
@@ -91,4 +110,3 @@ model AdminUser {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
-

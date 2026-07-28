@@ -13,9 +13,17 @@ export function ProductGrid({ items = productCategories }: ProductGridProps) {
           key={product.name}
           className="rounded-lg border border-black/10 bg-white p-5 shadow-sm"
         >
-          <div className="flex h-11 w-11 items-center justify-center rounded-md bg-cinnabar/10 text-lg font-semibold text-cinnabar">
-            {product.name.slice(0, 1)}
-          </div>
+          {product.imageUrl ? (
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="aspect-[4/3] w-full rounded-md object-cover"
+            />
+          ) : (
+            <div className="flex h-11 w-11 items-center justify-center rounded-md bg-cinnabar/10 text-lg font-semibold text-cinnabar">
+              {product.name.slice(0, 1)}
+            </div>
+          )}
           {product.category ? (
             <div className="mt-4 text-xs font-semibold text-cinnabar">
               {product.category}

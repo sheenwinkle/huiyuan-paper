@@ -6,6 +6,7 @@ export type DemoProduct = {
   categoryId: string;
   name: string;
   description: string;
+  imageUrl?: string | null;
   isActive: boolean;
   specs?: { note?: string } | null;
   createdAt: string;
@@ -100,6 +101,7 @@ export function createDemoProduct(input: CreateProductInput) {
     categoryId: input.categoryId,
     name: input.name,
     description: input.description,
+    imageUrl: input.imageUrl || null,
     isActive: true,
     specs: input.specsText ? { note: input.specsText } : null,
     createdAt: now,
@@ -126,6 +128,7 @@ export function updateDemoProduct(id: string, input: UpdateProductInput) {
 
   if (input.name !== undefined) product.name = input.name;
   if (input.description !== undefined) product.description = input.description;
+  if (input.imageUrl !== undefined) product.imageUrl = input.imageUrl || null;
   if (input.isActive !== undefined) product.isActive = input.isActive;
   if (input.specsText !== undefined) product.specs = input.specsText ? { note: input.specsText } : null;
   product.updatedAt = new Date().toISOString();
@@ -140,4 +143,3 @@ export function deleteDemoProduct(id: string) {
   category.products = category.products.filter((product) => product.id !== id);
   return true;
 }
-

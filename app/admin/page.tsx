@@ -17,6 +17,7 @@ async function getDashboardMetrics() {
     return {
       inquiryCount: inquiries.length,
       pendingCount: inquiries.filter((inquiry) => inquiry.status === "new").length,
+      highPriorityCount: inquiries.filter((inquiry) => inquiry.priority === "HIGH").length,
       categoryCount: categories.length,
       productCount: categories.reduce((count, category) => count + category.products.length, 0),
       knowledgeCount: listDemoKnowledge().filter((document) => document.isActive).length,
@@ -25,10 +26,18 @@ async function getDashboardMetrics() {
   }
 
   try {
-    const [inquiryCount, pendingCount, dbCategoryCount, dbProductCount, knowledgeCount] =
+    const [
+      inquiryCount,
+      pendingCount,
+      highPriorityCount,
+      dbCategoryCount,
+      dbProductCount,
+      knowledgeCount
+    ] =
       await Promise.all([
         prisma.inquiry.count(),
         prisma.inquiry.count({ where: { status: "NEW" } }),
+        prisma.inquiry.count({ where: { priority: "HIGH" } }),
         prisma.productCategory.count(),
         prisma.product.count(),
         prisma.knowledgeDocument.count({ where: { isActive: true } })
@@ -37,6 +46,7 @@ async function getDashboardMetrics() {
     return {
       inquiryCount,
       pendingCount,
+      highPriorityCount,
       categoryCount: dbCategoryCount || productCategories.length,
       productCount: dbProductCount,
       knowledgeCount,
@@ -46,6 +56,7 @@ async function getDashboardMetrics() {
     return {
       inquiryCount: 0,
       pendingCount: 0,
+      highPriorityCount: 0,
       categoryCount: productCategories.length,
       productCount: 0,
       knowledgeCount: 0,
@@ -62,7 +73,7 @@ export default async function AdminDashboardPage() {
     { label: "产品分类", value: metrics.categoryCount },
     { label: "产品条目", value: metrics.productCount },
     { label: "总询盘", value: metrics.inquiryCount },
-    { label: "启用知识", value: metrics.knowledgeCount }
+    { label: "高优先级", value: metrics.highPriorityCount }
   ];
 
   return (
@@ -122,6 +133,7 @@ export default async function AdminDashboardPage() {
             {[
               "管理员登录保护后台页面",
               "询盘列表接入 PostgreSQL",
+              "询盘 CRM 跟进字段和 CSV 导出",
               "产品分类和产品详情可新增",
               "AI 知识库可维护",
               "AI 知识库上传与检索"

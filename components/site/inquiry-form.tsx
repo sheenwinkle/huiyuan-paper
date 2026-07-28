@@ -33,7 +33,8 @@ export function InquiryForm() {
       region: String(formData.get("region") || ""),
       product: String(formData.get("product") || ""),
       quantity: String(formData.get("quantity") || ""),
-      note: String(formData.get("note") || "")
+      note: String(formData.get("note") || ""),
+      customerType: String(formData.get("customerType") || "UNKNOWN")
     };
 
     const response = await fetch("/api/inquiries", {
@@ -119,6 +120,18 @@ export function InquiryForm() {
         </label>
       </div>
       <label className="grid gap-2 text-sm font-medium text-ink">
+        客户类型
+        <select
+          name="customerType"
+          className="focus-ring rounded-md border border-black/15 bg-white px-3 py-3 text-sm"
+          defaultValue="UNKNOWN"
+        >
+          <option value="UNKNOWN">暂不确定</option>
+          <option value="WHOLESALER">批发商</option>
+          <option value="RETAILER">零售商</option>
+        </select>
+      </label>
+      <label className="grid gap-2 text-sm font-medium text-ink">
         需求说明
         <textarea
           name="note"
@@ -145,4 +158,3 @@ export function InquiryForm() {
     </form>
   );
 }
-

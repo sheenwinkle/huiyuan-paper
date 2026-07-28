@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/auth/admin-auth";
-import { updateInquiryStatus } from "@/lib/data/inquiries-store";
+import { updateInquiry } from "@/lib/data/inquiries-store";
 import { prisma } from "@/lib/db/prisma";
 import { isDemoMode } from "@/lib/runtime/demo-mode";
 import { updateInquirySchema } from "@/lib/validators/admin-inquiry";
@@ -27,10 +27,17 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const { inquiryId } = await context.params;
+  const updateData = {
+    ...result.data,
+    lastContactedAt:
+      result.data.status === "CONTACTED" && !result.data.lastContactedAt
+        ? new Date()
+        : result.data.lastContactedAt
+  };
 
   try {
     if (isDemoMode()) {
-      const inquiry = updateInquiryStatus(inquiryId, result.data.status);
+      const inquiry = updateInquiry(inquiryId, updateData);
       if (!inquiry) {
         return NextResponse.json({ error: "INQUIRY_NOT_FOUND" }, { status: 404 });
       }
@@ -39,7 +46,7 @@ export async function PATCH(request: Request, context: RouteContext) {
 
     const inquiry = await prisma.inquiry.update({
       where: { id: inquiryId },
-      data: result.data
+      data: updateData
     });
 
     return NextResponse.json({ inquiry });

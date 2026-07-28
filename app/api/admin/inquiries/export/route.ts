@@ -13,7 +13,11 @@ const headers = [
   "产品",
   "数量",
   "需求备注",
-  "状态"
+  "客户类型",
+  "优先级",
+  "状态",
+  "下次跟进",
+  "跟进记录"
 ];
 
 const statusLabels: Record<string, string> = {
@@ -23,6 +27,18 @@ const statusLabels: Record<string, string> = {
   new: "待跟进",
   contacted: "已联系",
   closed: "已关闭"
+};
+
+const priorityLabels: Record<string, string> = {
+  LOW: "低",
+  NORMAL: "普通",
+  HIGH: "高"
+};
+
+const customerTypeLabels: Record<string, string> = {
+  UNKNOWN: "未确认",
+  RETAILER: "零售商",
+  WHOLESALER: "批发商"
 };
 
 type ExportInquiry = {
@@ -35,6 +51,10 @@ type ExportInquiry = {
   quantity?: string | null;
   note?: string | null;
   status: string;
+  customerType?: string;
+  priority?: string;
+  followUpNote?: string | null;
+  nextFollowUpAt?: string | Date | null;
 };
 
 function csvCell(value: string | null | undefined) {
@@ -67,7 +87,11 @@ function toCsv(inquiries: ExportInquiry[]) {
       inquiry.product,
       inquiry.quantity,
       inquiry.note,
-      statusLabels[inquiry.status] ?? inquiry.status
+      customerTypeLabels[inquiry.customerType || "UNKNOWN"] ?? inquiry.customerType,
+      priorityLabels[inquiry.priority || "NORMAL"] ?? inquiry.priority,
+      statusLabels[inquiry.status] ?? inquiry.status,
+      inquiry.nextFollowUpAt ? formatDate(inquiry.nextFollowUpAt) : "",
+      inquiry.followUpNote
     ].map(csvCell).join(",")
   );
 

@@ -7,6 +7,7 @@ export type ProductCardItem = {
   name: string;
   description: string;
   category?: string;
+  imageUrl?: string | null;
 };
 
 export async function getPublicProductCards(): Promise<{
@@ -21,7 +22,8 @@ export async function getPublicProductCards(): Promise<{
         .map((product) => ({
           name: product.name,
           description: product.description,
-          category: category.name
+          category: category.name,
+          imageUrl: product.imageUrl
         }))
     );
 
@@ -53,7 +55,8 @@ export async function getPublicProductCards(): Promise<{
       category.products.map((product) => ({
         name: product.name,
         description: product.description,
-        category: category.name
+        category: category.name,
+        imageUrl: product.imageUrl
       }))
     );
 

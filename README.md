@@ -12,6 +12,7 @@ GitHub: https://github.com/sheenwinkle/huiyuan-paper
 - 全栈闭环：首页、产品中心、询盘表单、后台登录、产品管理、询盘管理、AI 知识库。
 - AI 应用落地：客服先基于知识库承接问题，再引导客户添加微信或留下联系方式，避免乱报价。
 - 工程化完整：Next.js、TypeScript、Prisma、PostgreSQL、Docker、健康检查、CI、GitHub Pages CD、部署说明。
+- 经营工具化：询盘 CRM 跟进、客户类型、优先级、下次跟进时间、CSV 导出。
 - 作品集表达：体现“AI + 软件工程帮助下沉市场小微企业获得数字化红利”。
 
 ## 功能范围
@@ -32,8 +33,10 @@ GitHub: https://github.com/sheenwinkle/huiyuan-paper
 - 询盘列表
 - 询盘状态流转
 - 询盘 CSV 导出
+- 客户类型、优先级、跟进备注、下次跟进日期
 - 产品分类管理
 - 产品新增、编辑、上下架、删除
+- 产品图片链接管理
 - AI 知识库新增、编辑、启用、停用、删除
 
 ### AI 客服
@@ -143,6 +146,7 @@ docker compose --env-file .env.production -f docker-compose.prod.yml exec app no
 - [架构说明](docs/architecture.md)
 - [部署说明](docs/deployment.md)
 - [Cloudflare Pages 免费演示部署](docs/cloudflare-pages.md)
+- [免费绕开方案](docs/free-workarounds.md)
 - [作品集包装](docs/portfolio.md)
 - [上线检查清单](docs/production-checklist.md)
 
@@ -152,5 +156,6 @@ docker compose --env-file .env.production -f docker-compose.prod.yml exec app no
 - 本地全栈代码可构建
 - Sites 演示站已部署
 - Docker 生产部署配置已准备
+- Prisma 生产迁移文件已准备
 - GitHub Actions CI/CD 已配置
 - 真实域名和云服务器属于后续付费步骤
